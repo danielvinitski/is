@@ -1,16 +1,9 @@
 # IS Buy tool
 
-[Cellwize Chime](https://www.cellwize.com/) has multiple components, but as a whole, it provides you a wide range of capabilities to improve and optimize existing Cellular infrastructure. 
-
-## TL;DR
-
-```console
-$ docker-compose up
-```
 
 ## Introduction
 
-This Docker compose orchestrate the deployment of customer-api-server, customer-management, mongoDB, Kafka and Zookeeper.  
+The Docker compose orchestrate the deployment of customer-api-server, customer-management, mongoDB, Kafka and Zookeeper.  
 
 ## Prerequisites
 
@@ -25,6 +18,17 @@ To install the Stack run the command:
 ```console
 $ docker-compose up -d
 ```
+
+## Instruction
+
+Run the docker Compose on your VM/laptop
+`docker-compose up -d`
+
+To purchase:
+`curl -X POST http://localhost:5000/api/v1/buy   -H 'Content-Type: application/json'   -d '{"username":"foo","userId":"1","price":"999"}'`
+
+To get all the purchases:
+`curl http://127.0.0.1:5000/api/v1/getBuyList`
 
 ## Parameters
 
@@ -52,18 +56,13 @@ The following table lists the configurable parameters of each service.
 
 ## API Calls
 
-``
-
-
-## Instruction
-
-Run the docker Compose on your VM/laptop
-
 To purchase:
 `curl -X POST http://localhost:5000/api/v1/buy   -H 'Content-Type: application/json'   -d '{"username":"foo","userId":"1","price":"999"}'`
 
 To get all the purchases:
-`curl http://localhost:5000/api/v1/getBuyList`
+`curl http://127.0.0.1:5000/api/v1/getBuyList`
+
+## More information about kafka docker
 
 https://github.com/bitnami/bitnami-docker-kafka
 
