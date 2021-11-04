@@ -1,0 +1,64 @@
+version: "2"
+
+services:
+  customer-api-server:
+    image: danielvinitski/customer-api-server:1
+    ports:
+      - "5000:5000"
+    environment:
+      - KAFKA_ENDPOINT=kafka:9092
+      - KAFKA_TOPIC=buy
+      - MANAGEMENT_ENDPOINT=http://customer-management:5005
+      - SERVER_PORT=5000
+    depends_on:
+      - kafka
+      - customer-management
+  customer-management:
+    image: danielvinitski/customer-management:1
+    ports:
+      - "5005:5005"
+    environment:
+      - MONGODB_ENDPOINT=mongodb:27017
+      - MONGODB_DB=shop
+      - KAFKA_ENDPOINT=kafka:9092
+      - KAFKA_TOPIC=buy
+      - SERVER_PORT=5005
+    depends_on:
+      - kafka
+      - mongodb
+  mongodb:
+    image: docker.io/bitnami/mongodb:4.4
+    ports:
+      - "27017:27017"
+#    volumes:
+#      - 'mongodb_data:/bitnami/mongodb'
+  zookeeper:
+    image: docker.io/bitnami/zookeeper:3.7
+    ports:
+      - "2181:2181"
+#    volumes:
+#      - "zookeeper_data:/bitnami"
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+  kafka:
+    image: docker.io/bitnami/kafka:3
+    ports:
+      - "9093:9092"
+#    volumes:
+#      - "kafka_data:/bitnami"
+    environment:
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka:29094,PLAINTEXT_HOST://kafka:9092
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://0.0.0.0:29094,PLAINTEXT_HOST://0.0.0.0:9092
+      - ALLOW_PLAINTEXT_LISTENER=yes
+    depends_on:
+      - zookeeper
+
+#volumes:
+#  mongodb_data:
+#    driver: local
+#  zookeeper_data:
+#    driver: local
+#  kafka_data:
+#    driver: local
