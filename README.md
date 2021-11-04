@@ -18,7 +18,7 @@ This Docker compose orchestrate the deployment of customer-api-server, customer-
 - Docker-compose
 
 
-## Installing the Chart
+## Installing the stack
 
 To install the Stack run the command:
 
@@ -44,14 +44,26 @@ The following table lists the configurable parameters of each service.
 | Parameter             | Description                                | Default                 |
 |-----------------------|--------------------------------------------|-------------------------|
 | `KAFKA_ENDPOINT`      | `Kafka bus endpoint`                       | `localhost:9093`        |
-| `KAFKA_TOPIC`         | `kafka topic to produce`                   | `buy`                   |
+| `KAFKA_TOPIC`         | `kafka topic to consume`                   | `buy`                   |
 | `KAFKA_GROUP_ID`      | `Kafka group id`                           | `my-group`              |
 | `SERVER_PORT`         | `Server port to run the service`           | `5005`                  |
 | `MONGODB_ENDPOINT`    | `Mongodb endpoint`                         | `localhost:27017`       |
 | `MONGODB_DB`          | `Server port to run the service`           | `shop`                  |
 
+## API Calls
 
-## More information about kafka on docker
+``
+
+
+## Instruction
+
+Run the docker Compose on your VM/laptop
+
+To purchase:
+`curl -X POST http://localhost:5000/api/v1/buy   -H 'Content-Type: application/json'   -d '{"username":"foo","userId":"1","price":"999"}'`
+
+To get all the purchases:
+`curl http://127.0.0.1:5000/api/v1/getBuyList`
 
 https://github.com/bitnami/bitnami-docker-kafka
 

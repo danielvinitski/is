@@ -1,4 +1,5 @@
 from kafka import KafkaProducer
+import json
 from json import dumps
 import flask
 from flask import request
@@ -51,12 +52,12 @@ def get_all_buy_list():
 # A route to create buy.
 @app.route('/api/v1/buy', methods=['POST'])
 def buy():
-    username = str(request.form.get('username'))
-    user_id = str(request.form.get('userId'))
-    price = str(request.form.get('price'))
+    username = str(json.loads(request.data).get('username'))
+    user_id = str(json.loads(request.data).get('userId'))
+    price = str(json.loads(request.data).get('price'))
     if price == 'None' or user_id == 'None' or username == 'None':
         return "wrong Body", 400
-    producer.send(kafka_topic, value=request.form)
+    producer.send(kafka_topic, value=json.loads(request.data))
     return "thanks for buying", 200
 
 
