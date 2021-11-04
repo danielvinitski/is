@@ -63,7 +63,7 @@ To purchase:
 `curl -X POST http://localhost:5000/api/v1/buy   -H 'Content-Type: application/json'   -d '{"username":"foo","userId":"1","price":"999"}'`
 
 To get all the purchases:
-`curl http://127.0.0.1:5000/api/v1/getBuyList`
+`curl http://localhost:5000/api/v1/getBuyList`
 
 https://github.com/bitnami/bitnami-docker-kafka
 
