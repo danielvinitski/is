@@ -1,6 +1,16 @@
 version: "2"
 
 services:
+  web-ui:
+    image: danielvinitski/web-ui:1
+    ports:
+      - "9000:9000"
+    environment:
+      - PORT=9000
+      - CUSTOMER_API_URL=http://localhost:5000
+    restart: on-failure
+    depends_on:
+      - customer-api-server
   customer-api-server:
     image: danielvinitski/customer-api-server:1
     ports:

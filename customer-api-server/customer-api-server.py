@@ -2,7 +2,8 @@ from kafka import KafkaProducer
 import json
 from json import dumps
 import flask
-from flask import request
+from flask import request, jsonify
+from flask_cors import CORS, cross_origin
 import requests
 import os
 import time
@@ -32,9 +33,13 @@ producer = KafkaProducer(bootstrap_servers=[kafka_endpoint],
 
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
+
 
 
 @app.route('/', methods=['GET'])
+@cross_origin()
 def home():
     return '''<h1>IS Store</h1>
 <p>/api/v1/buy to buy product</p>
@@ -44,13 +49,15 @@ def home():
 
 # A route to return all of purchases.
 @app.route('/api/v1/getBuyList', methods=['GET'])
+@cross_origin()
 def get_all_buy_list():
     r = requests.get(management_endpoint + '/api/v1/getBuyList')
-    return r.text
+    return jsonify(r.text)
 
 
 # A route to create buy.
 @app.route('/api/v1/buy', methods=['POST'])
+@cross_origin()
 def buy():
     username = str(json.loads(request.data).get('username'))
     user_id = str(json.loads(request.data).get('userId'))
@@ -58,7 +65,7 @@ def buy():
     if price == 'None' or user_id == 'None' or username == 'None':
         return "wrong Body", 400
     producer.send(kafka_topic, value=json.loads(request.data))
-    return "thanks for buying", 200
+    return jsonify()
 
 
 # start flask api server

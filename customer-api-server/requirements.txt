@@ -1,3 +1,4 @@
 kafka
 flask
 requests
+flask_cors

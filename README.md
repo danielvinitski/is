@@ -24,6 +24,9 @@ $ docker-compose up -d
 Run the docker Compose on your VM/laptop
 `docker-compose up -d`
 
+Navigate to `http://localhost:9000`
+
+### Native api
 To purchase:
 `curl -X POST http://localhost:5000/api/v1/buy   -H 'Content-Type: application/json'   -d '{"username":"foo","userId":"1","price":"999"}'`
 
@@ -33,6 +36,14 @@ To get all the purchases:
 ## Parameters
 
 The following table lists the configurable parameters of each service.
+
+### customer-api-server
+
+| Parameter             | Description                            | Default                 |
+|-----------------------|----------------------------------------|-------------------------|
+| `PORT          `      | `Bootsrap port of the server`          | `9000`                  |
+| `CUSTOMER_API_URL`    | `customer api servcice url`            | `http://localhost:5000` |
+
 
 ### customer-api-server
 
